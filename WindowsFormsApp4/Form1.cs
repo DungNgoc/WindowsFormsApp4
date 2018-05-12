@@ -1,137 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp4
 {
     public partial class Form1 : Form
     {
-        bool bTracking;
-        private Graphics g;
-        Bitmap character;
-        Point pCharacter;
-
+        #region Properties
         Timer time;
         Timer time2;
+        Controller controller;
+        DateTime timeStart;
+        #endregion
 
-        Point ptMouse = Point.Empty;
-
-        List<Leaves> leave1 = new List<Leaves>();
-        List<Leaves> leave2 = new List<Leaves>();
+        #region Construtor
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
             this.DoubleBuffered = true;
-            character = new Bitmap(Properties.Resources.right);
+            controller = new Controller();
 
-            time = new Timer();           
+            timeStart = DateTime.Now;
+            
+            #region Cố định thời gian update
+            time = new Timer();
             time.Interval = 20;
             time.Tick += Update;
             time.Start();
+            #endregion
 
+            #region Cố định time vẽ lại
             time2 = new Timer();
             time2.Interval = 33;
-            time2.Tick += Paint;
+            time2.Tick += PaintRefesh;
             time2.Start();
-            Bitmap ileave1 = new Bitmap(Properties.Resources.fall_leaf_collection_268134801);
-            Bitmap ileave2 = new Bitmap(Properties.Resources.snowflakes3);
-            for (int i = 0; i < 5; i++)
-            {
-                leave1.Add(new Leaves(ileave1));
-                leave2.Add(new Leaves(ileave2));
-            }
+            #endregion
+
         }
-        float timeShow = 0f;
-        List<Point> pShow = new List<Point>();
-        void Paint(object sender, EventArgs e)
+
+        #endregion
+
+        #region Method
+        private void Update(TimeSpan gameTime)//gameTime là hiệu giữa now và before
         {
-           this.Refresh();
+            controller.Update(gameTime);
         }
-        void Update(object sender, EventArgs e)
+
+        private void Draw(Graphics graphics)
         {
-            
-            if(timeShow > 3f)
-            {
-                if(pShow.Count >0)
-                    pShow.Clear();
-                timeShow = 0f;
-            }
-            else
-            {
-                timeShow += 0.033f;
-            }
-            foreach (var leave in leave1)
-            {
-                leave.Update();
-            }
-            foreach (var leave in leave2)
-            {
-                leave.Update();
-            }
+            controller.Draw(graphics);
         }
+        #endregion
 
+        #region Event
+        private void Update(object sender, EventArgs e)
+        {
+            TimeSpan timeGame = DateTime.Now.Subtract(timeStart);
+            timeStart = DateTime.Now;
 
-
-        
-        /* private void Form1_KeyDown(object sender, KeyEventArgs e)
-         {
-             if(e.KeyCode == Keys.Right)
-             {
-                 pictureCharacter.Location = new Point((int)(pictureCharacter.Location.X + 10), pictureCharacter.Location.Y);
-             }
-             if(e.KeyCode == Keys.Left)
-             {
-                 pictureCharacter.Location = new Point((int)(pictureCharacter.Location.X - 10), pictureCharacter.Location.Y);
-             }
-         }*/
+            Update(timeGame);
+        }
+        private void PaintRefesh(object sender, EventArgs e)
+        {
+            this.Refresh();
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            g = e.Graphics;
-            g.DrawImage(character, pCharacter);
-            if(pShow.Count > 0)
-                g.DrawPolygon(new Pen(Color.White), pShow.ToArray());
-            foreach (var leave in leave1)
-            {
-                leave.Draw(g);
-            }
-            foreach (var leave in leave2)
-            {
-                leave.Draw(g);
-            }
+            Draw(e.Graphics);
             base.OnPaint(e);
         }
         protected override void OnMouseDown(MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left)
                 return;
-            bTracking = true;
+            else
+            {
+                controller.BTracking = true;
+                Point ptnew = new Point(e.X, e.Y);
+                controller.PShow = new Rectangle(ptnew, controller.PShow.Size); // vẽ đầu
+            }
         }
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (bTracking)
+            if (controller.BTracking)
             {
-                Point ptnew = new Point(e.X, e.Y);
-                pShow.Add(ptnew);
+                Size ptnew = new Size(e.X, e.Y);
+                controller.PShow = new Rectangle(controller.PShow.Location, ptnew); //vẽ đuôi rectangle
             }
             base.OnMouseMove(e);
 
         }
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            bTracking = false;
-
+            controller.BTracking = false;
         }
-
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            pCharacter = new Point(e.X - 116, e.Y - 135);
+            controller.Character.Location = new Point(e.X - 84, e.Y - 84);
         }
+        #endregion
+
     }
 }

@@ -21,15 +21,7 @@ namespace WindowsFormsApp4
             time.Interval = 33;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void bunifuImageButton1_Click(object sender, EventArgs e)
         {

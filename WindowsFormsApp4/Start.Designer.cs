@@ -40,17 +40,18 @@
             this.pictureBox2.BackgroundImage = global::WindowsFormsApp4.Properties.Resources.button4;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox2.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.pictureBox2.ErrorImage = global::WindowsFormsApp4.Properties.Resources.button4;
             this.pictureBox2.Location = new System.Drawing.Point(605, 365);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(154, 144);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // bunifuImageButton1
             // 
             this.bunifuImageButton1.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuImageButton1.ErrorImage = global::WindowsFormsApp4.Properties.Resources.button3;
             this.bunifuImageButton1.Image = global::WindowsFormsApp4.Properties.Resources.button3;
             this.bunifuImageButton1.ImageActive = null;
             this.bunifuImageButton1.Location = new System.Drawing.Point(308, 12);
