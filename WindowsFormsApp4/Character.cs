@@ -4,14 +4,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WindowsFormsApp4
 {
     public class Character
     {
+
         #region properties
         private Bitmap character;
-        
+        public MouseEventHandler MouseDown;
+        public MouseEventHandler MouseUp;
+        public MouseEventHandler MouseMove;
 
         private Point index;
         private Point pcharacterPre;
@@ -20,7 +24,16 @@ namespace WindowsFormsApp4
         private Rectangle sourceRectCharcter; // khung cắt
         private bool check;//kiem tra co ve character khong
 
+        private Rectangle bounds;
+
+        private bool isClick;
+        private bool isDrag;
+
         private float timeChange;
+        private float timeKeep;
+
+        public bool IsContains { get; set; }
+        public Rectangle Bounds { get => bounds; }// Lấy giá trị
         public Point Location { set => desRectCharacter.Location = value; }
         public bool Visiable { get =>check; set => check = value; }
         #endregion
@@ -36,6 +49,7 @@ namespace WindowsFormsApp4
 
             index = Point.Empty;
 
+            isClick = false;
             #region Hình chính
             desRectCharacter = new Rectangle();
 
@@ -52,22 +66,78 @@ namespace WindowsFormsApp4
             sourceRectCharcter.Size = desRectCharacter.Size;
             #endregion
 
+            this.MouseDown += FM_MouseDown;
+            MouseUp += FM_MouseUp;
+            MouseMove += FM_MouseMove;
         }
+
+
 
 
         #endregion
 
-
         #region Method
         public void Update(TimeSpan gameTime)
         {
-            //if (!Visiable) return;
-            //ExSource(gameTime);
+            timeKeep +=(float) gameTime.TotalMilliseconds;
+            if (isDrag == true && timeKeep > 3000.0f)
+            {
+                isDrag = false;
+                timeKeep = 0.0f;
+                IsContains = false;
+            }
+
+            if (!Visiable) return;
+            ExSource(gameTime);
         }
         public void Draw(Graphics graphics)
         {
+
             if (!Visiable) return;
             graphics.DrawImage(character, desRectCharacter, sourceRectCharcter, GraphicsUnit.Pixel);
+
+            if (isClick == true || isDrag == true)
+            {
+                if(IsContains)
+                {
+                    graphics.DrawRectangle(new Pen(Color.Red), bounds);
+                    
+                }
+                else
+                {
+                    graphics.DrawRectangle(new Pen(Color.White), bounds);
+                }
+            }
+
+        }
+        #endregion
+
+        #region Event
+        private void FM_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(isClick  == false && isDrag == false)
+            {
+                bounds = new Rectangle(e.Location, Size.Empty);
+                isClick = true;
+            }
+        }
+        private void FM_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(isClick && isDrag == false)
+            {
+                int x = (e.X < bounds.X) ? bounds.X - e.X : -bounds.X + e.X;
+                int y = (e.Y < bounds.Y) ? bounds.Y - e.Y : -bounds.Y + e.Y;
+                //if(e.X > bounds.X && e.Y > bounds.Y)
+                bounds.Size = new Size(x, y);
+            }
+        }
+        private void FM_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (isClick == true)
+            {
+                isDrag = true;
+                isClick = false;
+            }
         }
         #endregion
 

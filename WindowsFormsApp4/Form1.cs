@@ -18,6 +18,8 @@ namespace WindowsFormsApp4
         public Form1()
         {
             InitializeComponent();
+            this.Capture = true;
+            
             this.DoubleBuffered = true;
             controller = new Controller();
 
@@ -38,6 +40,7 @@ namespace WindowsFormsApp4
             #endregion
 
         }
+       
 
         #endregion
 
@@ -77,6 +80,7 @@ namespace WindowsFormsApp4
                 return;
             else
             {
+                controller.Character.MouseDown(null, e);
                 controller.BTracking = true;
                 Point ptnew = new Point(e.X, e.Y);
                 controller.PShow = new Rectangle(ptnew, controller.PShow.Size); // vẽ đầu
@@ -94,13 +98,25 @@ namespace WindowsFormsApp4
         }
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            controller.BTracking = false;
+
+            if (e.Button == MouseButtons.Left)
+            {
+              controller.Character.MouseUp(this, e);
+                controller.Check = true;
+            }
+           
+                controller.BTracking = false;
+           
+            
         }
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             controller.Character.Location = new Point(e.X - 84, e.Y - 84);
+            controller.Character.MouseMove(sender, e);
         }
+
         #endregion
 
+        
     }
 }
