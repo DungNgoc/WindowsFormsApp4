@@ -61,11 +61,20 @@ namespace WindowsFormsApp4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream _2 {
+            get {
+                return ResourceManager.GetStream("_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _6a00d8341c01ff53ef01bb09db369d970d_800wi {
+        internal static System.Drawing.Bitmap Bt_start {
             get {
-                object obj = ResourceManager.GetObject("6a00d8341c01ff53ef01bb09db369d970d-800wi", resourceCulture);
+                object obj = ResourceManager.GetObject("Bt_start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +82,29 @@ namespace WindowsFormsApp4.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bl_4 {
+        internal static System.Drawing.Bitmap bt1 {
             get {
-                object obj = ResourceManager.GetObject("bl-4", resourceCulture);
+                object obj = ResourceManager.GetObject("bt1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bt2 {
+            get {
+                object obj = ResourceManager.GetObject("bt2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bt21 {
+            get {
+                object obj = ResourceManager.GetObject("bt21", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -101,21 +130,20 @@ namespace WindowsFormsApp4.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.Drawing.Bitmap fall_leaf_collection_268134801 {
+        internal static System.IO.UnmanagedMemoryStream chimes {
             get {
-                object obj = ResourceManager.GetObject("fall_leaf_collection_268134801", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetStream("chimes", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap images {
+        internal static System.Drawing.Bitmap fall_leaf_collection_26813480ưq1 {
             get {
-                object obj = ResourceManager.GetObject("images", resourceCulture);
+                object obj = ResourceManager.GetObject("fall_leaf_collection_26813480ưq1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +153,7 @@ namespace WindowsFormsApp4.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap iStock_613015246 {
             get {
-                object obj = ResourceManager.GetObject("iStock-613015246", resourceCulture);
+                object obj = ResourceManager.GetObject("iStock_613015246", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,29 +171,9 @@ namespace WindowsFormsApp4.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap left {
-            get {
-                object obj = ResourceManager.GetObject("left", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap png {
             get {
                 object obj = ResourceManager.GetObject("png", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap right {
-            get {
-                object obj = ResourceManager.GetObject("right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +203,27 @@ namespace WindowsFormsApp4.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Snow_Forest_Main {
             get {
-                object obj = ResourceManager.GetObject("Snow_Forest-Main", resourceCulture);
+                object obj = ResourceManager.GetObject("Snow_Forest_Main", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap snowflakes1 {
+            get {
+                object obj = ResourceManager.GetObject("snowflakes1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap snowflakes2 {
+            get {
+                object obj = ResourceManager.GetObject("snowflakes2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -206,6 +234,16 @@ namespace WindowsFormsApp4.Properties {
         internal static System.Drawing.Bitmap snowflakes3 {
             get {
                 object obj = ResourceManager.GetObject("snowflakes3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap snowflakes4 {
+            get {
+                object obj = ResourceManager.GetObject("snowflakes4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

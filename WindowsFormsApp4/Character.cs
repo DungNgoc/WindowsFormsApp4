@@ -10,7 +10,6 @@ namespace WindowsFormsApp4
 {
     public class Character
     {
-
         #region properties
         private Bitmap character;
         public MouseEventHandler MouseDown;
@@ -36,6 +35,8 @@ namespace WindowsFormsApp4
         public Rectangle Bounds { get => bounds; }// Lấy giá trị
         public Point Location { set => desRectCharacter.Location = value; }
         public bool Visiable { get =>check; set => check = value; }
+        public bool IsClick { get => isClick; set => isClick = value; }
+        public bool IsDrag { get => isDrag; set => isDrag = value; }
         #endregion
 
         #region contructor
@@ -49,7 +50,7 @@ namespace WindowsFormsApp4
 
             index = Point.Empty;
 
-            isClick = false;
+            IsClick = false;
             #region Hình chính
             desRectCharacter = new Rectangle();
 
@@ -79,12 +80,16 @@ namespace WindowsFormsApp4
         #region Method
         public void Update(TimeSpan gameTime)
         {
-            timeKeep +=(float) gameTime.TotalMilliseconds;
-            if (isDrag == true && timeKeep > 3000.0f)
+            if (timeKeep >= 1500.0f)
             {
-                isDrag = false;
+                IsDrag = false;
+                isClick = false;
                 timeKeep = 0.0f;
                 IsContains = false;
+            }
+            if(isDrag)
+            {
+                timeKeep += (float)gameTime.TotalMilliseconds;
             }
 
             if (!Visiable) return;
@@ -96,18 +101,22 @@ namespace WindowsFormsApp4
             if (!Visiable) return;
             graphics.DrawImage(character, desRectCharacter, sourceRectCharcter, GraphicsUnit.Pixel);
 
-            if (isClick == true || isDrag == true)
+            if(IsClick)
             {
-                if(IsContains)
+                    graphics.DrawRectangle(new Pen(Color.White), bounds);
+            }
+            else
+            {
+                if (IsContains && IsDrag)
                 {
                     graphics.DrawRectangle(new Pen(Color.Red), bounds);
-                    
                 }
-                else
+                else if (!IsContains && IsDrag)
                 {
                     graphics.DrawRectangle(new Pen(Color.White), bounds);
                 }
             }
+            
 
         }
         #endregion
@@ -115,15 +124,15 @@ namespace WindowsFormsApp4
         #region Event
         private void FM_MouseDown(object sender, MouseEventArgs e)
         {
-            if(isClick  == false && isDrag == false)
+            if(IsClick  == false && IsDrag == false)
             {
                 bounds = new Rectangle(e.Location, Size.Empty);
-                isClick = true;
+                IsClick = true;
             }
         }
         private void FM_MouseMove(object sender, MouseEventArgs e)
         {
-            if(isClick && isDrag == false)
+            if(IsClick && IsDrag == false)
             {
                 int x = (e.X < bounds.X) ? bounds.X - e.X : -bounds.X + e.X;
                 int y = (e.Y < bounds.Y) ? bounds.Y - e.Y : -bounds.Y + e.Y;
@@ -133,10 +142,10 @@ namespace WindowsFormsApp4
         }
         private void FM_MouseUp(object sender, MouseEventArgs e)
         {
-            if (isClick == true)
+            if (IsClick == true)
             {
-                isDrag = true;
-                isClick = false;
+                IsDrag = true;
+                IsClick = false;
             }
         }
         #endregion
@@ -173,6 +182,5 @@ namespace WindowsFormsApp4
             pcharacterPre = desRectCharacter.Location;
         }
         #endregion
-
     }
 }

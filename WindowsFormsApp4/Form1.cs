@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
+using System.Media;
 namespace WindowsFormsApp4
 {
     public partial class Form1 : Form
@@ -12,6 +12,8 @@ namespace WindowsFormsApp4
         Timer time2;
         Controller controller;
         DateTime timeStart;
+        float timeLive;
+        bool isLive;
         #endregion
 
         #region Construtor
@@ -21,7 +23,9 @@ namespace WindowsFormsApp4
             this.Capture = true;
             
             this.DoubleBuffered = true;
-            controller = new Controller();
+            controller = new Controller(lbScores);
+
+            isLive = true;
 
             timeStart = DateTime.Now;
             
@@ -47,7 +51,22 @@ namespace WindowsFormsApp4
         #region Method
         private void Update(TimeSpan gameTime)//gameTime là hiệu giữa now và before
         {
-            controller.Update(gameTime);
+            if (isLive)
+            {
+
+                timeLive += (float)gameTime.TotalSeconds;
+                if (timeLive < 240.0f)
+                {
+                    controller.Update(gameTime);
+                    tb_Time.Value = (int)((timeLive / 240) * 100);
+                }
+                else 
+                {
+                    isLive = false;
+                    MessageBox.Show("Game Over!");
+                    this.Close();
+                }
+            }
         }
 
         private void Draw(Graphics graphics)
@@ -68,7 +87,6 @@ namespace WindowsFormsApp4
         {
             this.Refresh();
         }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             Draw(e.Graphics);
@@ -80,7 +98,11 @@ namespace WindowsFormsApp4
                 return;
             else
             {
-                controller.Character.MouseDown(null, e);
+
+                controller.isClick = !controller.isCheck;
+                if (controller.isClick == true)
+                    controller.Character.MouseDown(null, e);
+
                 controller.BTracking = true;
                 Point ptnew = new Point(e.X, e.Y);
                 controller.PShow = new Rectangle(ptnew, controller.PShow.Size); // vẽ đầu
@@ -101,13 +123,19 @@ namespace WindowsFormsApp4
 
             if (e.Button == MouseButtons.Left)
             {
-              controller.Character.MouseUp(this, e);
-                controller.Check = true;
+                if (controller.isClick == true)
+                {
+                    controller.isClick = false;
+                    controller.isCheck = true;
+                    controller.timeCheck = 0;
+                    controller.Character.MouseUp(this, e);
+                }
+                else
+                {
+                    controller.isCheck = false;
+                }
             }
-           
-                controller.BTracking = false;
-           
-            
+            controller.BTracking = false;
         }
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -115,8 +143,32 @@ namespace WindowsFormsApp4
             controller.Character.MouseMove(sender, e);
         }
 
+
+
         #endregion
 
-        
+       
+
+        private void bunifuImageButton2_Click(object sender, EventArgs e)
+        {
+            
+            isLive =! isLive;
+            bunifuImageButton1.Visible = true;
+            bunifuImageButton2.Visible = false;
+        }
+
+        private void bunifuImageButton1_Click(object sender, EventArgs e)
+        {
+            isLive = !isLive;
+            bunifuImageButton1.Visible = false;
+            bunifuImageButton2.Visible = true;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+     
     }
 }

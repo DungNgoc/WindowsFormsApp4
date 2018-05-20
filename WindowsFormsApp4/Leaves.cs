@@ -24,6 +24,13 @@ namespace WindowsFormsApp4
             set { _desRectangle = value; }
         }
         public object Tag { get; set; }
+        public int Scores
+        {
+            get
+            {
+                return 5;
+            }
+        }
         #endregion
 
 
@@ -52,9 +59,34 @@ namespace WindowsFormsApp4
         public void Draw(Graphics graphics)
         {
             graphics.DrawImage(_skin, _desRectangle);
-            graphics.DrawRectangle(new Pen(Color.White), _desRectangle);
+            //graphics.DrawRectangle(new Pen(Color.White), _desRectangle);// vẽ hình xung quanh lá
         }
-        
+        public void ChangeSnow()
+        {
+            switch (ran.Next(1,5))
+            {
+                case 1:
+                    _skin = Properties.Resources.snowflakes3;
+                    _desRectangle.Size = _skin.Size;
+                    break;
+                case 2:
+                    _skin = Properties.Resources.snowflakes1;
+                    _desRectangle.Size = _skin.Size;
+                    break;
+                case 3:
+                    _skin = Properties.Resources.snowflakes2;
+                    _desRectangle.Size = _skin.Size;
+                    break;
+                case 4:
+                    _skin = Properties.Resources.snowflakes4;
+                    _desRectangle.Size = _skin.Size;
+                    break;
+
+                default:
+                    break;
+            }
+            this.Tag = 0;         
+        }
         #endregion
 
     }

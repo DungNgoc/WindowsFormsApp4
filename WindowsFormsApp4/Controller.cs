@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
+using System.Media;
+
 namespace WindowsFormsApp4
 {
+
+
     public class Controller
     {
-      
-        
+        SoundPlayer audio = new SoundPlayer(WindowsFormsApp4.Properties.Resources.chimes); // here WindowsFormsApplication1 is the namespace and Connect is the audio file name
+
         #region Properties
         private static readonly Random random = new Random();
-
+        private Scores scores;
         bool bTracking;
+
 
         bool check= false;
         public bool Check { get => check; set => check = value; }
@@ -31,15 +37,22 @@ namespace WindowsFormsApp4
         public Rectangle PShow { get => pShow; set => pShow = value; }
         public bool BTracking { get => bTracking; set => bTracking = value; }
         public Character Character { get => character; }
+        public bool isClick;
+        public bool isCheck;
+        public float timeCheck;
+        Label lbScores;
         #endregion
 
         #region Constructor
-        public Controller()
+        public Controller(Label lbScores)
         {
+            this.lbScores = lbScores;
+            scores = new Scores();
+            //lbScores.DataBindings.Add(new Binding("Text", scores, "ScoresShow"));
             bTracking = false;
 
-            skinLeaves1 = new Bitmap(Properties.Resources.fall_leaf_collection_268134801);
-            skinLeaves2 = new Bitmap(Properties.Resources.leaf22);
+            skinLeaves1 = new Bitmap(Properties.Resources.leaf22);
+            skinLeaves2 = new Bitmap(Properties.Resources.fall_leaf_collection_26813480ưq1);
 
             character = new Character();
 
@@ -50,7 +63,22 @@ namespace WindowsFormsApp4
         public void Update(TimeSpan gameTime)
         {
             character.Update(gameTime);
-            ChangeColor();
+
+            if(timeCheck>=1500)
+            {
+                timeCheck = 0;
+                isCheck = false;
+                isClick = false;
+            }
+            if (isCheck)
+            {
+                timeCheck += (float)gameTime.TotalMilliseconds;
+                if (!isClick && isCheck)
+                    ChangeColor();
+            }
+
+
+
             Leaves leaves = RandomCreate();// tạo lá ngẫu nhiên
 
             if (leaves != null) //tạo thành công
@@ -58,7 +86,7 @@ namespace WindowsFormsApp4
                 this.leaves.Add(leaves);
             }
 
-            if (timeShow > 3.0f)
+            if (timeShow > 2.0f)
             {
 
                 timeShow = 0f;
@@ -71,6 +99,7 @@ namespace WindowsFormsApp4
             {
                 leave.Update(gameTime);
             }
+            
         }
         public void Draw(Graphics graphics)
         {
@@ -119,31 +148,28 @@ namespace WindowsFormsApp4
         /// <returns></returns>
         public int Collision()
         {
-            
+            if (isClick && !isCheck)
+                return 0;
             int isLeaves1 = 0;
             int isLeaves2 = 0;
 
-            if (check == true)
+            for (int i = 0; i < leaves.Count; i++)
             {
-                for (int i = 0; i < leaves.Count; i++)
+                if ((isLeaves1 + isLeaves2) > 3)
+                    return 0;
+
+                if ((int)leaves[i].Tag == 1 && character.Bounds.Contains(leaves[i].Bounds))
                 {
-                    //if ((isLeaves1 + isLeaves2) > 0)
-                    //    return 0;
-
-                    if ((int)leaves[i].Tag == 1 && character.Bounds.Contains(leaves[i].Bounds))//character.Bounds.Contains(leaves[i].Bounds) == true)
-                    {
-                        isLeaves1 = 1;
-                    }
-                    else
-                    if ((int)leaves[i].Tag == 2 && character.Bounds.Contains(leaves[i].Bounds))//character.Bounds.Contains(leaves[i].Bounds) == true)
-                    {
-                        isLeaves2 = 2;
-                    }
-
+                    isLeaves1 = 1;
+                }
+                else
+                if ((int)leaves[i].Tag == 2 && character.Bounds.Contains(leaves[i].Bounds))
+                {
+                    isLeaves2 = 2;
                 }
 
-                
             }
+
             return (isLeaves1 + isLeaves2);
         }
 
@@ -170,19 +196,34 @@ namespace WindowsFormsApp4
                         if ((int)leaves[i].Tag == 1 && character.Bounds.Contains(leaves[i].Bounds))//character.Bounds.Contains(leaves[i].Bounds) == true)
                         {
                             leaves[i].IsContains = true;
+                            leaves[i].ChangeSnow();
+                           
+                              audio.Play();
+                            
+                            scores.ScoresPlay += leaves[i].Scores;
                         }
+
                     break;
                 case 2:
-                    Character.IsContains = false;
+                    Character.IsContains = true;
                     for (int i = 0; i < leaves.Count; i++)
                         if ((int)leaves[i].Tag == 2 && character.Bounds.Contains(leaves[i].Bounds))//character.Bounds.Contains(leaves[i].Bounds) == true)
                         {
                             leaves[i].IsContains = true;
+                            leaves[i].ChangeSnow();
+                            //SoundPlayer audio = new SoundPlayer(WindowsFormsApp4.Properties.Resources.chimes); // here WindowsFormsApplication1 is the namespace and Connect is the audio file name
+                            audio.Play();
+                           
+                            scores.ScoresPlay += leaves[i].Scores;
                         }
                     break;
                 default:
+                    Character.IsContains = false;
+
+                            
                     break;
             }
+            lbScores.Text = scores.ScoresShow;
         }
         #endregion
     }

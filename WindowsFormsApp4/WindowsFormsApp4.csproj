@@ -68,6 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scores.cs" />
     <Compile Include="Start.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,13 +106,7 @@
     <None Include="Resources\Snow_Forest-Main.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\6a00d8341c01ff53ef01bb09db369d970d-800wi.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\images.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bl-4.jpg" />
@@ -126,11 +121,18 @@
     <None Include="Resources\button4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\fall-leaf-collection-268134801.png" />
+    <None Include="Resources\bt1.png" />
+    <None Include="Resources\bt2.png" />
+    <Content Include="Resources\2.wav" />
+    <Content Include="Resources\chimes.wav" />
+    <Content Include="Resources\snowflakes4.png" />
     <None Include="Resources\leaf22.png" />
     <None Include="Resources\iStock-613015246.jpg" />
+    <Content Include="Resources\fall-leaf-collection-26813480ưq.png" />
     <Content Include="Resources\rightleft.png" />
     <None Include="Resources\rightleft1.png" />
+    <Content Include="Resources\snowflakes1.png" />
+    <Content Include="Resources\snowflakes2.png" />
     <Content Include="Resources\snowflakes3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
